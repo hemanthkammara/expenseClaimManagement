@@ -6,7 +6,7 @@ require("dotenv").config();
 
 const cors = require("cors");
 const { ExpenseModel } = require("./models/expense.model");
-const { auth } = require("./middlEwares/auth.middleware");
+const { auth } = require("./middlewares/auth.middleware");
 const app = express();
 app.use(express.json());
 app.use(cors());
