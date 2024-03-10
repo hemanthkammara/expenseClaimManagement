@@ -51,7 +51,8 @@ export const Signup = () => {
       .then((res) => {
         const status = res.data.msg;
         if (status == "new user has add") {
-          navigate(location.state, { replace: true });
+          navigate("/login")
+          // navigate(location.state, { replace: true });
         }
       })
       .catch((err) => {

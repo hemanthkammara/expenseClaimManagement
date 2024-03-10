@@ -1,11 +1,13 @@
-import { Box, Grid, GridItem, Heading, Text } from "@chakra-ui/react";
+import { Box, Button, Grid, GridItem, Heading, Img, Text } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { getExpense } from "../redux/expense/action";
 import { compose } from "redux";
+import { useNavigate } from "react-router-dom";
 
 export const EmployeePage = () => {
   const dispatch = useDispatch();
+  const navigate=useNavigate()
   const { expenses, isLoading } = useSelector(
     (store) => store.expenseReducer,
     shallowEqual
@@ -28,8 +30,9 @@ export const EmployeePage = () => {
 
   console.log(expenses,"employee page");
   return (
-    <Box>
-      <Heading>Expenses</Heading>
+    <Box mt={40}>
+      <Heading></Heading>
+      <Heading>{expenses.length==0?" claim expenses by applying":""} {expenses.length==0?<Button onClick={()=>{navigate("/expense")}}>Apply</Button>:""}</Heading>
 
       <Grid
         templateColumns="repeat(2, 1fr)"
@@ -47,10 +50,15 @@ export const EmployeePage = () => {
                 boxShadow="rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px"
                 textAlign={"left"}
                 display={"flex"}
-                flexDirection={"column"}
+                flexDirection={"row"}
                 gap={5}
                 borderRadius={10}
               >
+                <Box display={"flex"}
+                w={"70%"}
+                flexDirection={"column"} 
+                 gap={5} >
+
                 <Text>
                   <b>Expense Type: </b>
                   {el.expensetype}
@@ -76,6 +84,12 @@ export const EmployeePage = () => {
                   </span>
                 </Text>
               </Box>
+
+              <Box w={"30%"}>
+                <Img w={"100%"} src={el.image}/>
+              </Box>
+                </Box>
+                
             );
           })}
       </Grid>

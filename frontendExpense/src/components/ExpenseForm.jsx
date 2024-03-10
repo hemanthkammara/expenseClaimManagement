@@ -14,6 +14,9 @@ import { useDispatch } from "react-redux";
 import { addExpense } from "../redux/expense/action";
 import { useNavigate } from "react-router-dom";
 
+import { getStorage, ref, uploadBytesResumable, getDownloadURL, uploadBytes } from "firebase/storage";
+import {firebase} from "firebase/compat/app"
+import { storage } from "./firebase";
 export const ExpenseForm = () => {
   const dispatch = useDispatch();
   const navigate=useNavigate()
@@ -22,12 +25,29 @@ export const ExpenseForm = () => {
     expensetype: "",
     description: "",
     expensestatus: "pending",
+    image:""
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNewExpense((prev) => ({ ...prev, [name]: value }));
   };
+
+  const handleFileUpload=(e)=>{
+    //const storage = getStorage();
+    const selectedfile=e.target.files[0]
+  
+    const imageRef=ref(storage,`${selectedfile.name}`);
+    uploadBytes(imageRef,selectedfile).then(()=>{
+      console.log("image Upoaded")
+      getDownloadURL(ref(storage, `${selectedfile.name}`)).then((url)=>{
+            console.log(url)
+            setNewExpense((prev) => ({ ...prev, image: url }));
+      })
+    })
+    }
+
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -36,7 +56,7 @@ export const ExpenseForm = () => {
       navigate("/employee")
     })
   };
-
+console.log(newExpense);
   return (
     <Box
       w={"50%"}
@@ -86,6 +106,7 @@ export const ExpenseForm = () => {
               handleChange(e);
             }}
           />
+          <Input type="file" onChange={handleFileUpload}></Input>
           <Button type="submit" colorScheme="linkedin" w={"50%"} h={"50px"}>
             Submit
           </Button>

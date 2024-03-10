@@ -23,7 +23,7 @@ export const Manager = ({ handleState }) => {
         alignItems={"center"}
       >
         <Link to={"/manager"} style={{ fontSize: "22px", color: "white" }}>
-          Pending
+          Requests
         </Link>
         <Button onClick={handleLogout}>Logout</Button>
       </Box>

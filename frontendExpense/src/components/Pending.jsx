@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { getAllExpense, updateExpense } from "../redux/expense/action";
-import { Box, Button, ButtonGroup, Flex, Grid, Spacer, Text } from "@chakra-ui/react";
+import { Box, Button, ButtonGroup, Flex, Grid, Img, Spacer, Text } from "@chakra-ui/react";
 
 export const Pending = () => {
   // const [status, setStatus] = useState("pending");
@@ -31,8 +31,9 @@ export const Pending = () => {
       obj.expensestatus="rejected"
 
     }
+    console.log("hello")
 
-    dispatch(updateExpense(id,obj))
+    // dispatch(updateExpense(id,obj))
 
   }
 
@@ -47,7 +48,7 @@ export const Pending = () => {
         gap={6}
         w={"70%"}
         m={"auto"}
-        mt={20}
+        mt={40}
       >
         {expenses.length > 0 &&
           expenses.map((el, i) => {
@@ -59,27 +60,44 @@ export const Pending = () => {
                 textAlign={"left"}
                 display={"flex"}
                 flexDirection={"column"}
-                gap={5}
+                gap={2}
                 borderRadius={10}
               >
-                <Text>
-                  <b> Employee Name: </b>
-                  {el.userName}
-                </Text>
-                <Text>
-                  <b>Expense Type: </b>
-                  {el.expensetype}
-                </Text>
-                <Text>
-                  <b>Details: </b>
-                  {el.description}
-                </Text>
-                <Text>
-                  <b>Created on:</b>
-                  {new Date(el.createdAt).toLocaleString()}
-                </Text>
+                <Box  display={"flex"}
+                flexDirection={"row"}
+                
+                >
 
-                <Flex>
+                    
+                      <Box display={"flex"}
+                flexDirection={"column"}  gap={5} w={"60%"} >
+
+                          <Text>
+                            <b> Employee Name: </b>
+                            {el.userName}
+                          </Text>
+                          <Text>
+                            <b>Expense Type: </b>
+                            {el.expensetype}
+                          </Text>
+                          <Text>
+                            <b>Details: </b>
+                            {el.description}
+                          </Text>
+                          <Text>
+                            <b>Created on:</b>
+                            {new Date(el.createdAt).toLocaleString()}
+                          </Text>
+
+                    </Box>
+
+                    <Box w={"40%"}>
+                      <Img w={"80%"} src={el.image} />
+                    </Box>
+               </Box>
+
+                <Box display={"flex"}
+                flexDirection={"row"} >
                 <Text>
                   <b>Status: </b>
                   <span
@@ -97,15 +115,17 @@ export const Pending = () => {
                {
                 el.expensestatus=="pending" && 
 
+<>
+                
+                <ButtonGroup mt="-2" >
+                <Button colorScheme='green'  onClick={()=>{handleUpdate(el._id,"approve")}}  >Approve</Button>
+                <Button colorScheme='red'  onClick={()=>{handleUpdate(el._id,"reject")}}>Reject</Button>
 
-               <ButtonGroup mt="-2" zIndex={-1}>
-                <Button colorScheme='green' zIndex={-1} onClick={()=>{handleUpdate(el._id,"approve")}}  >Approve</Button>
-                <Button colorScheme='red' zIndex={-1} onClick={()=>{handleUpdate(el._id,"reject")}}>Reject</Button>
-
-                </ButtonGroup>
+                 </ButtonGroup>
+                </>
                }
 
-                </Flex>
+                </Box>
 
 
 
