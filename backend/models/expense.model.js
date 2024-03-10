@@ -12,6 +12,7 @@ let expenseSchema = mongoose.Schema(
     },
     userId: String,
     userName: String,
+    image:String
   },
   { timestamps: true },
   { versionkey: false }
